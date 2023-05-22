@@ -6,7 +6,7 @@ const { cleanEntry } = require("./src/cleanEntry");
 const { extractWithGPT } = require("./src/extractWithGPT");
 const { saveToLocalDatabase } = require("./src/saveToLocalDatabase");
 
-const numbers = Array.from({ length: 1 }, (_, i) => i + 1);
+const numbers = Array.from({ length: 5 }, (_, i) => i + 1);
 
 const url =
   "https://www.fachinformatiker.de/topic/114321-wie-viel-verdient-ihr/page";
@@ -22,7 +22,7 @@ async function sleep(ms) {
   for (const pageUrl of pages) {
     console.log(`Fetch ${pageUrl}...`);
 
-    const scrapedResults = await scrapeThreadData(url);
+    const scrapedResults = await scrapeThreadData(pageUrl);
     const cleanedResults = scrapedResults.map(cleanEntry);
 
     console.log("Ask GPT...");
@@ -34,7 +34,7 @@ async function sleep(ms) {
     allResults.push(...results);
 
     console.log("Sleep for some time...");
-    await sleep(5000);
+    await sleep(1000);
   }
 
   console.log(`Fetched ${allResults.length} items`);
