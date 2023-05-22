@@ -17,14 +17,16 @@ async function scrapeThreadData(url) {
 
       const content = $(postElement)
         .find(".cPost_contentWrap .ipsType_normal")
-        .text()
-        .trim();
+        .html();
 
       const date = $(postElement)
         .find(".ipsComment_meta > div.ipsType_reset > a > time")
         .attr("datetime");
 
-      postsData.push({ username, content, date: new Date(date) });
+      // https://www.fachinformatiker.de/topic/114321-wie-viel-verdient-ihr/?do=findComment&comment=1036333
+      const postId = $(postElement).attr("id").replace("elComment_", "");
+
+      postsData.push({ postId, username, content, date: new Date(date) });
     });
 
     return postsData;
