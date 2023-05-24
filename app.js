@@ -1,12 +1,9 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
-
 const { scrapeThreadData } = require("./src/threadScraper");
 const { cleanEntry } = require("./src/cleanEntry");
 const { extractWithGPT } = require("./src/extractWithGPT");
 const { saveToLocalDatabase } = require("./src/saveToLocalDatabase");
 
-const numbers = Array.from({ length: 5 }, (_, i) => i + 1);
+const numbers = Array.from({ length: 35 }, (_, i) => i + 1);
 
 const url =
   "https://www.fachinformatiker.de/topic/114321-wie-viel-verdient-ihr/page";
@@ -27,9 +24,8 @@ async function sleep(ms) {
 
     console.log("Ask GPT...");
     const resultPromises = cleanedResults.map(extractWithGPT);
-
-    console.log("Finished asking GPT...");
     const results = await Promise.all(resultPromises);
+    console.log("Finished asking GPT...");
 
     allResults.push(...results);
 
